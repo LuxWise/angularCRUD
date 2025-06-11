@@ -1,0 +1,50 @@
+services:
+  front:
+    image: luxwise/angular_crud_front
+    build: ./angularCRUD_front
+    ports:
+      - "4200:4200"
+    environment:
+      - PG_USER=portfolio_admin
+      - PG_PASSWORD=porfolio_pass
+      - PG_HOST=database
+      - PG_DATABASE=portfolio
+      - PG_PORT=5555
+    depends_on:
+      - database
+      - back
+    networks:
+      - angular_net
+    
+  back:
+    image: luxwise/angular_crud_back
+    container_name: angular_backend
+    build: ./angularCRUD_back
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/angular
+      - SPRING_DATASOURCE_USERNAME=angular_admin
+      - SPRING_DATASOURCE_PASSWORD=angular_pass
+      - JWT_SECRET_ACCESS=586E3272357538782F413F4428472B4B6250655368566B597033733676397924
+    depends_on:
+      - database
+    networks:
+      - angular_net
+
+  database:
+    image: postgres:16
+    container_name: angular_db
+    ports:
+      - "5555:5432"
+    environment:
+      - POSTGRES_USER=angular_admin
+      - POSTGRES_PASSWORD=angular_pass
+      - POSTGRES_DB=angular
+    volumes:
+      - ./parcial3/init:/docker-entrypoint-initdb.d
+    networks:
+      - angular_net
+
+networks:
+  angular_net:

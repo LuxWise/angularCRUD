@@ -1,0 +1,6 @@
+[submodule "angularCRUD_back"]
+	path = angularCRUD_back
+	url = git@github.com:LuxWise/angularCRUD_back.git
+[submodule "angularCRUD_front"]
+	path = angularCRUD_front
+	url = git@github.com:LuxWise/angularCRUD_front.git
